@@ -48,8 +48,33 @@ app.get("/api/:date?", function (req, res) {
 
     // If string is invalid
     if (date.toString() === "Invalid Date") {
+      res.json({ error: "Invalid Date" });
+    } else {
+      res.json({ unix: date.getTime(), utc: date.toUTCString() });
+    }
+  }
+});
+
+// Nice looking timestamp api
+app.get("/api/nice/:date?", function (req, res) {
+  let string = req.params.date;
+  let date;
+
+  // If string is empty set date to new Date()
+  if (!string) {
+    date = new Date();
+  } else {
+    // If string is numbers
+    if (!isNaN(string)) {
+      date = new Date(parseInt(string));
+    } else {
+      date = new Date(string);
+    }
+
+    // If string is invalid
+    if (date.toString() === "Invalid Date") {
       // res.json({ error: "Invalid Date" });
-      let result = JSON.stringify({ message: "Invalid Date" });
+      let result = { message: "Invalid Date" };
       res.render("result", { data: result });
     } else {
       let result = {
