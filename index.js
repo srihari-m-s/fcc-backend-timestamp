@@ -38,6 +38,7 @@ app.get("/api/:date?", function (req, res) {
   // If string is empty set date to new Date()
   if (!string) {
     date = new Date();
+    res.json({ unix: date.getTime(), utc: date.toUTCString() });
   } else {
     // If string is numbers
     if (!isNaN(string)) {
